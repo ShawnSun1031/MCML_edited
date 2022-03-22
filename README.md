@@ -45,7 +45,7 @@ The output filename for reflectance.
 Print the helping information.
     * `-R`
 Replay the detected photons after first simulation, to get the pathlength in each layer or absorbance matrix.
-	* `-R`
+	* `-RR`
 Replay all photons after first simulation, to get the pathlength in each layer or absorbance matrix.
 	* `-A`
 Output the absorbance array for each detector in [A_rz_SDS_#.txt](#arz_txt) and [A0_z_SDS_#.txt](#a0z_txt).
