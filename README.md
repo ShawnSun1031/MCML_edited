@@ -1,5 +1,5 @@
 # MCML_GPU
-the MCML with cuda acceleration which modified by Benjamin Kao and have many purpose
+the MCML with cuda acceleration which modified by Chin Shun Sun and have many purpose
 
 
 ---
@@ -45,8 +45,12 @@ The output filename for reflectance.
 Print the helping information.
     * `-R`
 Replay the detected photons after first simulation, to get the pathlength in each layer or absorbance matrix.
+	* `-R`
+Replay all photons after first simulation, to get the pathlength in each layer or absorbance matrix.
 	* `-A`
 Output the absorbance array for each detector in [A_rz_SDS_#.txt](#arz_txt) and [A0_z_SDS_#.txt](#a0z_txt).
+	* `-AA`
+Output the absorbance array for all photons in [AA_rz_SDS_#.txt](#arz_txt) and [AA0_z_SDS_#.txt](#a0z_txt).
     * `-P`
 Output the pathlength for each photon in [pathlength_SDS_#.txt](#PLSDS_txt), otherwise output the calculated average pathlength in [average_pathlength.txt](#avg_PL_txt).
     * `-AP`
