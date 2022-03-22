@@ -8,6 +8,17 @@
 
 using json = nlohmann::json;
 
+// __device__ __constant__ unsigned long long num_photons_dc[1];
+// __device__ __constant__ unsigned int n_layers_dc[1];
+// __device__ __constant__ unsigned int num_detector_dc[1];
+// __device__ __constant__ float start_weight_dc[1];
+// __device__ __constant__ float detector_reflectance_dc[1];
+// __device__ __constant__ LayerStruct layers_dc[PRESET_NUM_LAYER + 2];
+// __device__ __constant__ DetectorInfoStruct detInfo_dc[PRESET_NUM_DETECTOR + 1];
+// __device__ __constant__ float critical_angle_dc[PRESET_NUM_DETECTOR + 1];
+// __device__ __constant__ bool source_probe_oblique_dc[1];
+// __device__ __constant__ bool detector_probe_oblique_dc[1];
+
 void output_fiber(SimulationStruct* sim, float *data, char* output)
 {
 	ofstream myfile;

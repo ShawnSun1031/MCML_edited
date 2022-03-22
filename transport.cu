@@ -7,6 +7,16 @@
 #include <assert.h>
 #include <math.h>
 
+// __device__ __constant__ unsigned long long num_photons_dc[1];
+// __device__ __constant__ unsigned int n_layers_dc[1];
+// __device__ __constant__ unsigned int num_detector_dc[1];
+// __device__ __constant__ float start_weight_dc[1];
+// __device__ __constant__ float detector_reflectance_dc[1];
+// __device__ __constant__ LayerStruct layers_dc[PRESET_NUM_LAYER + 2];
+// __device__ __constant__ DetectorInfoStruct detInfo_dc[PRESET_NUM_DETECTOR + 1];
+// __device__ __constant__ float critical_angle_dc[PRESET_NUM_DETECTOR + 1];
+// __device__ __constant__ bool source_probe_oblique_dc[1];
+// __device__ __constant__ bool detector_probe_oblique_dc[1];
 
 int InitMemStructs(MemStruct* HostMem, MemStruct* DeviceMem, SimulationStruct* sim, int num_of_threads);
 int InitMemStructs_replay(MemStruct_Replay* HostMem, MemStruct_Replay* DeviceMem, SimulationStruct* sim, int num_of_threads);
@@ -53,6 +63,17 @@ void output_reflectance(SimulationStruct* sim, unsigned long long *data, bool do
 void calculate_average_pathlength(double *average_PL, float ***pathlength_weight_arr, SimulationStruct *sim, int *total_SDS_detect_num);
 void output_average_pathlength(SimulationStruct* sim, double *average_PL);
 
+
+// extern __device__ __constant__ unsigned long long num_photons_dc[1];
+// extern __device__ __constant__ unsigned int n_layers_dc[1];
+// extern __device__ __constant__ unsigned int num_detector_dc[1];
+// extern __device__ __constant__ float start_weight_dc[1];
+// extern __device__ __constant__ float detector_reflectance_dc[1];
+// extern __device__ __constant__ LayerStruct layers_dc[PRESET_NUM_LAYER + 2];
+// extern __device__ __constant__ DetectorInfoStruct detInfo_dc[PRESET_NUM_DETECTOR + 1];
+// extern __device__ __constant__ float critical_angle_dc[PRESET_NUM_DETECTOR + 1];
+// extern __device__ __constant__ bool source_probe_oblique_dc[1];
+// extern __device__ __constant__ bool detector_probe_oblique_dc[1];
 
 __device__ float rn_gen(curandState *s)
 {
@@ -936,7 +957,8 @@ __device__ bool detect(PhotonStruct* p, Fibers* f)
 			// check if the photon is in the range of detector
 			// because the detector is oblique, so the detection area is oval
 			// use fober detector rathter than ring detector, and each detector locate at (x,y) = (pos,0)
-			if ((pow((p->x - detInfo_dc[i].position)*cos(detInfo_dc[i].angle), 2) + pow(p->y, 2)) <= pow(detInfo_dc[i].raduis, 2))
+			//if ((pow((p->x - detInfo_dc[i].position)*cos(detInfo_dc[i].angle), 2) + pow(p->y, 2)) <= pow(detInfo_dc[i].raduis, 2))
+			if (((p->x - detInfo_dc[i].position)*cos(detInfo_dc[i].angle)*(p->x - detInfo_dc[i].position)*cos(detInfo_dc[i].angle))+((p->y)*(p->y)) <= detInfo_dc[i].raduis*detInfo_dc[i].raduis )
 			{
 				// let the detector point to the -x direction
 				float uz_rotated = (p->dx*sin(detInfo_dc[i].angle)) + fabs(p->dz*cos(detInfo_dc[i].angle));
@@ -1004,7 +1026,8 @@ __device__ bool detect_replay(PhotonStruct* p, Fibers* f, int detected_SDS)
 		// check if the photon is in the range of detector
 		// because the detector is oblique, so the detection area is oval
 		// use fober detector rathter than ring detector, and each detector locate at (x,y) = (pos,0)
-		if ((pow((p->x - detInfo_dc[i].position)*cos(detInfo_dc[i].angle), 2) + pow(p->y, 2)) <= pow(detInfo_dc[i].raduis, 2))
+		//if ((pow((p->x - detInfo_dc[i].position)*cos(detInfo_dc[i].angle), 2) + pow(p->y, 2)) <= pow(detInfo_dc[i].raduis, 2))
+		if (((p->x - detInfo_dc[i].position)*cos(detInfo_dc[i].angle)*(p->x - detInfo_dc[i].position)*cos(detInfo_dc[i].angle))+((p->y)*(p->y)) <= detInfo_dc[i].raduis*detInfo_dc[i].raduis )
 		{
 			// let the detector point to the -x direction
 			float uz_rotated = (p->dx*sin(detInfo_dc[i].angle)) + fabs(p->dz*cos(detInfo_dc[i].angle));
